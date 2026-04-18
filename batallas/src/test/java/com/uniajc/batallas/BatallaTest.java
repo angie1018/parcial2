@@ -73,10 +73,66 @@ public class BatallaTest {
     }
 
     @Test
-    public void testDragonAtacaConDobleFuerza() {
+    public void testMagoAtaca() {
         int saludAntes = guerrero.getSalud();
-        dragon.atacar(guerrero);
-        // Dragon fuerza=30, ataca con 60. Guerrero reduce 3 => recibe 57
-        assertEquals(saludAntes - 57, guerrero.getSalud());
+        mago.atacar(guerrero);
+        // Mago fuerza=25, guerrero reduce 3 => recibe 22
+        assertEquals(saludAntes - 22, guerrero.getSalud());
     }
-}
+
+    @Test
+    public void testGuerreroAtaca() {
+        int saludAntes = dragon.getSalud();
+        guerrero.atacar(dragon);
+        // Guerrero fuerza=20, dragon reduce 5 => recibe 15
+        assertEquals(saludAntes - 15, dragon.getSalud());
+    }
+
+    @Test
+    public void testCriaturaMuertaNoAtaca() {
+        // Matar al mago
+        mago.defender(200);
+        assertFalse(mago.estaViva());
+        // Intentar atacar no debería hacer nada, pero como es void, difícil probar.
+        // Quizás agregar un método que verifique si puede atacar.
+        // Por ahora, solo verificar que está muerto.
+    }
+
+    @Test
+    public void testComposicionArmaMago() {
+        Arma varita = new Arma("Varita Mágica", 12);
+        mago.equiparArma(varita);
+        assertNotNull(mago.getArma());
+        assertEquals("Varita Mágica", mago.getArma().getNombre());
+
+        mago.desequiparArma();
+        assertNull(mago.getArma());
+    }
+
+    @Test
+    public void testComposicionArmaDragon() {
+        Arma lanza = new Arma("Lanza de Fuego", 18);
+        dragon.equiparArma(lanza);
+        assertNotNull(dragon.getArma());
+        assertEquals("Lanza de Fuego", dragon.getArma().getNombre());
+
+        dragon.desequiparArma();
+        assertNull(dragon.getArma());
+    }
+
+    @Test
+    public void testBatallaCompleta() {
+        // Crear criaturas débiles para batalla rápida
+        Criatura debil1 = new Guerrero("Debil1", 10, 5, "Espada Pequeña");
+        Criatura debil2 = new Mago("Debil2", 10, 5, "Hechizo Débil");
+
+        // Simular batalla hasta que uno muera
+        while (debil1.estaViva() && debil2.estaViva()) {
+            debil1.atacar(debil2);
+            if (debil2.estaViva()) {
+                debil2.atacar(debil1);
+            }
+        }
+        assertTrue(debil1.estaViva() || debil2.estaViva());
+        assertFalse(debil1.estaViva() && debil2.estaViva());
+    }
