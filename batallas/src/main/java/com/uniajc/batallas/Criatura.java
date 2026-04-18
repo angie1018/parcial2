@@ -60,6 +60,10 @@ public abstract class Criatura {
         return salud > 0;
     }
 
+    /**
+     * Imprime los atributos básicos de la criatura por consola.
+     * Útil para depuración y visualización del estado.
+     */
     public void imprimir() {
         System.out.println("Nombre: " + nombre + " | Salud: " + salud + " | Fuerza: " + fuerza);
     }

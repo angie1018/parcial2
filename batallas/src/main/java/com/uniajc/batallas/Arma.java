@@ -32,6 +32,7 @@ public class Arma {
 
     /**
      * Realiza un ataque con el arma sobre la criatura objetivo.
+     * Aplica daño adicional y delega la defensa al objetivo.
      * @param objetivo La criatura que recibirá el daño del arma.
      */
     public void atacarConArma(Criatura objetivo) {
