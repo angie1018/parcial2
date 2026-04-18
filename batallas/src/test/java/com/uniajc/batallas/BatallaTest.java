@@ -121,6 +121,31 @@ public class BatallaTest {
     }
 
     @Test
+    public void testAtaqueSinArmaDespuesDeDesequipar() {
+        // Verificar que cada criatura ataca con su daño base tras desequipar el arma
+        Arma armaMago = new Arma("Varita Mágica", 12);
+        mago.equiparArma(armaMago);
+        mago.desequiparArma();
+        int saludAntesGuerrero = guerrero.getSalud();
+        mago.atacar(guerrero);
+        assertEquals(saludAntesGuerrero - 22, guerrero.getSalud());
+
+        Arma armaDragon = new Arma("Lanza de Fuego", 18);
+        dragon.equiparArma(armaDragon);
+        dragon.desequiparArma();
+        int saludAntesGuerrero2 = guerrero.getSalud();
+        dragon.atacar(guerrero);
+        assertEquals(saludAntesGuerrero2 - 57, guerrero.getSalud());
+
+        Arma armaGuerrero = new Arma("Espada Mágica", 10);
+        guerrero.equiparArma(armaGuerrero);
+        guerrero.desequiparArma();
+        int saludAntesDragon = dragon.getSalud();
+        guerrero.atacar(dragon);
+        assertEquals(saludAntesDragon - 15, dragon.getSalud());
+    }
+
+    @Test
     public void testBatallaCompleta() {
         // Crear criaturas débiles para batalla rápida
         Criatura debil1 = new Guerrero("Debil1", 10, 5, "Espada Pequeña");
